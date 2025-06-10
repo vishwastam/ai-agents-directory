@@ -64,6 +64,47 @@ def agent_detail(slug):
                          rating_success=request.args.get('rating_success'),
                          rating_error=request.args.get('error'))
 
+@app.route('/api/agents')
+def api_agents():
+    """REST API endpoint to return all agents in JSON format"""
+    try:
+        agents = data_loader.get_all_agents()
+        
+        # Convert agents to JSON-serializable format
+        results = []
+        for agent in agents:
+            results.append({
+                'id': agent.slug,
+                'name': agent.name,
+                'short_description': agent.short_desc,
+                'long_description': agent.long_desc,
+                'creator': agent.creator,
+                'url': agent.url,
+                'domains': agent.domain_list,
+                'use_cases': agent.use_case_list,
+                'platform': agent.platform_list,
+                'pricing': agent.pricing_clean,
+                'underlying_model': agent.underlying_model,
+                'deployment': agent.deployment,
+                'legitimacy': agent.legitimacy,
+                'user_feedback': agent.what_users_think
+            })
+        
+        return jsonify({
+            'success': True,
+            'data': results,
+            'total': len(results),
+            'version': '1.0'
+        })
+        
+    except Exception as e:
+        logging.error(f"API error: {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Internal server error',
+            'total': 0
+        }), 500
+
 @app.route('/api/search')
 def api_search():
     """API endpoint for AJAX search (if needed for future enhancements)"""
@@ -137,6 +178,11 @@ def add_agent():
     except Exception as e:
         logging.error(f"Error in add_agent route: {e}")
         return redirect(url_for('index', error='general'))
+
+@app.route('/api')
+def api_docs():
+    """API documentation page"""
+    return render_template('api_docs.html')
 
 @app.route('/rate-agent', methods=['POST'])
 def rate_agent():
