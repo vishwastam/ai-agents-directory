@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import json
 from models import Agent
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, Union
 import logging
 from datetime import datetime, timedelta
 import time
@@ -209,7 +209,7 @@ class DataLoader:
             'creators': sorted(list(creators))
         }
     
-    def search_agents(self, query: str = "", filters: Dict[str, Any] | None = None) -> List[Agent]:
+    def search_agents(self, query: str = "", filters: Optional[Dict[str, Any]] = None) -> List[Agent]:
         """Search and filter agents based on query and filters"""
         if filters is None:
             filters = {}
