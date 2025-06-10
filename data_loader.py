@@ -35,19 +35,19 @@ class DataLoader:
             for _, row in df.iterrows():
                 try:
                     agent = Agent(
-                        name=str(row.get('Agent Name', '')),
-                        domains=str(row.get('Domains', '')),
-                        use_cases=str(row.get('Use Cases', '')),
-                        short_desc=str(row.get('Short Desc', '')),
-                        long_desc=str(row.get('Long Desc', '')),
-                        creator=str(row.get('Creator', '')), 
-                        url=str(row.get('URL', '')),
-                        platform=str(row.get('Platform', '')),
-                        pricing=str(row.get('Pricing', '')),
-                        underlying_model=str(row.get('Underlying Model', '')),
-                        deployment=str(row.get('Deployment', '')),
-                        legitimacy=str(row.get('Legitimacy', '')),
-                        what_users_think=str(row.get('What Users Think', ''))
+                        name=str(row.get('name', '')),
+                        domains=str(row.get('domains', '')),
+                        use_cases=str(row.get('use_cases', '')),
+                        short_desc=str(row.get('short_desc', '')),
+                        long_desc=str(row.get('long_desc', '')),
+                        creator=str(row.get('creator', '')), 
+                        url=str(row.get('url', '')),
+                        platform=str(row.get('platform', '')),
+                        pricing=str(row.get('pricing', '')),
+                        underlying_model=str(row.get('underlying_model', '')),
+                        deployment=str(row.get('deployment', '')),
+                        legitimacy=str(row.get('legitimacy', '')),
+                        what_users_think=str(row.get('what_users_think', ''))
                     )
                     self.agents.append(agent)
                 except Exception as e:
