@@ -71,7 +71,14 @@
         </div>
         
         <!-- Success/Error Messages -->
-        {% if show_success %}
+        {% if show_success == 'submitted' %}
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+            <div class="flex items-center">
+                <i data-lucide="check-circle" class="h-5 w-5 text-blue-600 mr-2"></i>
+                <span class="text-blue-800 font-medium">Thank you! Your AI agent has been submitted for review and will be added to the directory once approved.</span>
+            </div>
+        </div>
+        {% elif show_success %}
         <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
             <div class="flex items-center">
                 <i data-lucide="check-circle" class="h-5 w-5 text-green-600 mr-2"></i>
@@ -298,13 +305,18 @@
                 Featured Agents
             {% endif %}
         </h3>
-        <p class="text-gray-600">
-            {% if current_query or current_filters %}
-                Showing {{ agents|length }} agents
-            {% else %}
-                Top-rated and most popular AI agents
-            {% endif %}
-        </p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <p class="text-gray-600">
+                {% if current_query or current_filters %}
+                    Showing {{ agents|length }} agents
+                {% else %}
+                    Top-rated and most popular AI agents
+                {% endif %}
+            </p>
+            <p class="text-sm text-gray-500">
+                {{ last_updated }}
+            </p>
+        </div>
     </div>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
