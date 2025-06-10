@@ -41,6 +41,9 @@ class Agent:
         
         # Extract primary domain
         self.primary_domain = self.domain_list[0] if self.domain_list else "General AI"
+        
+        # Ensure URL has proper protocol
+        self.url = self._clean_url(self.url)
     
     def _create_slug(self, name: str) -> str:
         """Create a URL-safe slug from agent name"""
@@ -61,6 +64,27 @@ class Agent:
             return 'Paid'
         else:
             return pricing
+    
+    def _clean_url(self, url: str) -> str:
+        """Clean and validate URL, ensuring it has proper protocol"""
+        if not url or url.lower() in ['nan', 'none', 'null', '']:
+            return ""
+        
+        url = url.strip()
+        
+        # If URL already has a protocol, return it
+        if url.startswith(('http://', 'https://')):
+            return url
+        
+        # If URL looks like a relative path, return it as is
+        if url.startswith('/'):
+            return url
+        
+        # For domain names without protocol, add https://
+        if '.' in url and not url.startswith(('ftp://', 'file://')):
+            return f"https://{url}"
+        
+        return url
     
     def get_json_ld(self) -> Dict[str, Any]:
         """Generate JSON-LD structured data for SEO"""
