@@ -15,7 +15,8 @@ A comprehensive, user-friendly directory of publicly available AI agents with ad
 - **Automated Agent Discovery**: Background system to find and add new AI agents
 - **Real User Feedback**: Compiled from Reddit, Twitter, GitHub, and review sites
 - **SEO Optimized**: Structured data and meta tags for search engines
-- **Agent Submission**: Community can submit new agents for review
+- **Pending Review System**: User submissions are held for approval before publication
+- **Last Updated Tracking**: Shows when the directory was last updated
 
 ## 🚀 Quick Start
 
@@ -34,7 +35,7 @@ cd ai-agents-directory
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r dependencies.txt
 # or if using uv:
 uv sync
 ```
@@ -102,6 +103,46 @@ python scheduler.py
 - `comprehensive_user_research.py`: User feedback research
 - `scheduler.py`: Automated scheduling
 - `merge_agents.py`: Data integration utilities
+
+## 📝 User Submission Management
+
+### Pending Review System
+User-submitted agents are saved for review before being added to the main directory:
+
+1. **Submission Process**: Users submit agents through the web form
+2. **Pending Status**: Submissions are saved with `status: 'pending_review'`
+3. **Review Queue**: Check `user_agents.json` for pending submissions
+4. **Approval Process**: Manually change status to `'approved'` to publish
+
+### Managing Submissions
+View pending submissions:
+```bash
+python -c "
+import json
+with open('user_agents.json', 'r') as f:
+    data = json.load(f)
+pending = [agent for agent in data if agent.get('status') == 'pending_review']
+print(f'Pending submissions: {len(pending)}')
+for agent in pending:
+    print(f'- {agent[\"name\"]} by {agent.get(\"creator\", \"Unknown\")}')
+"
+```
+
+Approve a submission:
+```python
+import json
+with open('user_agents.json', 'r') as f:
+    data = json.load(f)
+
+# Find and approve agent by name
+for agent in data:
+    if agent['name'] == 'Agent Name' and agent['status'] == 'pending_review':
+        agent['status'] = 'approved'
+        break
+
+with open('user_agents.json', 'w') as f:
+    json.dump(data, f, indent=2)
+```
 
 ## 🔧 Configuration
 
