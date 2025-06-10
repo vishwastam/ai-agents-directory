@@ -32,6 +32,7 @@ def index():
                          current_query=query,
                          current_filters=filters,
                          total_agents=len(data_loader.get_all_agents()),
+                         last_updated=data_loader.get_last_updated_time(),
                          show_success=request.args.get('success'))
 
 @app.route('/agent/<slug>')
@@ -129,7 +130,7 @@ def add_agent():
         success = data_loader.add_user_agent(agent_data)
         
         if success:
-            return redirect(url_for('index', success='1'))
+            return redirect(url_for('index', success='submitted'))
         else:
             return redirect(url_for('index', error='save_failed'))
             
